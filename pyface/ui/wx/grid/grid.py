@@ -1531,15 +1531,7 @@ class _GridTableBase(GridTableBase):
         self._renderer_cache = {}
 
     def dispose(self):
-
-        # Make sure dispose gets called on all traits editors:
-        for editor in self._editor_cache.values():
-            editor.dispose()
-        self._editor_cache = {}
-
-        for renderer in self._renderer_cache.values():
-            renderer.dispose()
-        self._renderer_cache = {}
+        self._clear_cache(do_immediately=True)
 
     ###########################################################################
     # 'wxPyGridTableBase' interface.
@@ -1696,7 +1688,7 @@ class _GridTableBase(GridTableBase):
                     self._editor_cache[(row, col)] = editor
                     editor._grid_info = (self._grid._grid, row, col)
 
-        if False:#editor is not None:
+        if editor is not None:
             # Note: We have to increment the reference to keep the
             #       underlying code from destroying our object.
             editor.IncRef()
@@ -1778,12 +1770,19 @@ class _GridTableBase(GridTableBase):
     ###########################################################################
     # private interface.
     ###########################################################################
-    def _clear_cache(self):
-        """ Clean out the editor/renderer cache. """
 
-        # Dispose of the editors in the cache after a brief delay, so as
-        # to allow completion of the current event:
-        do_later(self._editor_dispose, self._editor_cache.values())
+    def _clear_cache(self, do_immediately=False):
+        """
+        Clean out the editor/renderer cache.
+        :param do_immediately: do not use do_later to call function. do_later is used by default to
+         allow completion of the current event. do_immediately is used if _clear_cache is called before grid.Destroy()
+         because grid.Destroy() fails if not all references to the editor have been removed by calling DecRef()
+        """
+
+        if do_immediately:
+            self._editor_dispose(self._editor_cache.values())
+        else:
+            do_later(self._editor_dispose, self._editor_cache.values())
 
         self._editor_cache = {}
         self._renderer_cache = {}
@@ -1792,6 +1791,7 @@ class _GridTableBase(GridTableBase):
     def _editor_dispose(self, editors):
         for editor in editors:
             editor.dispose()
+            editor.DecRef()
 
 
 from wx.grid import GridCellEditor
