@@ -195,7 +195,7 @@ class TraitGridCellAdapter(PyGridCellEditor):
 
         return
 
-    def PaintBackground(self, rect, attr):
+    def PaintBackground(self,dc, rect, attr):
         """ Draws the part of the cell not occupied by the edit control.  The
             base  class version just fills it with background colour from the
             attribute.  In this class the edit control fills the whole cell so
@@ -214,11 +214,20 @@ class TraitGridCellAdapter(PyGridCellEditor):
         if isinstance(control, wx.TextCtrl):
             control.SetSelection(-1, -1)
 
-    def EndEdit(self, row, col, grid):
+    def ApplyEdit(self, row, col, grid):
+        """
+        Effectively save the changes in the grid.
+
+        This function should save the value of the control in the grid. It is
+        called only after EndEdit returns True
+        """
+        grid.SetCellValue(row, col, self._control.GetValue())
+
+    def EndEdit(self, row, col, grid, old_val):
         """ Do anything necessary to complete the editing. """
         self._control.Show(False)
 
-        changed = False
+        refresh_needed = False
         grid, row, col = self._grid_info
 
         if grid._no_reset_col:
@@ -228,7 +237,7 @@ class TraitGridCellAdapter(PyGridCellEditor):
             if width is not None:
                 del grid._restore_width
                 grid.SetColSize(col, width)
-                changed = True
+                refresh_needed = True
 
         if grid._no_reset_row:
             grid._no_reset_row = False
@@ -237,10 +246,16 @@ class TraitGridCellAdapter(PyGridCellEditor):
             if height is not None:
                 del grid._restore_height
                 grid.SetRowSize(row, height)
-                changed = True
+                refresh_needed = True
 
-        if changed:
+        if refresh_needed:
             grid.ForceRefresh()
+
+        new_val = self._control.GetValue()
+        if new_val != old_val:
+            return new_val
+        else:
+            return None
 
     def Reset(self):
         """ Reset the value in the control back to its starting value. """
