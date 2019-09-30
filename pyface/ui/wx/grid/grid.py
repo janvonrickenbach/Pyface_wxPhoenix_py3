@@ -366,12 +366,20 @@ class Grid(Widget):
             remove=True)
         otc(self._on_show_row_headers_changed, 'show_row_headers', remove=True)
 
+        # Comment before wx 4.0.6
         # It seems that the grid must be destroyed before disposing of
         # _grid_table_base: otherwise, the grid can apparently generate an
         # extra _GridTableBase.GetAttr call after _GridTableBase.dispose()
         # has been called, leading to headaches and segfaults.
-        grid.Destroy()
+
+        # Update for wx4.0.6
+        # If Destroy is called before _grid_table_base.dispose() it fails with an assertion error:
+        # wx._core.wxAssertionError: C + + assertion "GetEventHandler() == this" failed
+        # => the order is changed again which does not lead to segfaults in 4.0.6
+        # The logic how reference counting works seems to have changed for 4.0.6
+        # https://github.com/wxWidgets/Phoenix/issues/627
         self._grid_table_base.dispose()
+        grid.Destroy()
 
     ###########################################################################
     # Trait event handlers.
