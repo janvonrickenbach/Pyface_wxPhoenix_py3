@@ -214,7 +214,7 @@ class VirtualModel(PyGridTableBase):
 
     def DeleteRow(self, row):
         name, data = row
-        print 'Deleting ', name
+        #print('Deleting ', name)
         self._data.remove(row)
 
     def DeleteRows88(self, rows):
