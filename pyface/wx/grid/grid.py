@@ -266,7 +266,7 @@ class Grid(wxGrid):
         (wxGrid) -> Reset the grid view.   Call this to
         update the grid if rows and columns have been added or deleted
         """
-        print '*************************VirtualModel.reset_view'
+        #print('*************************VirtualModel.reset_view')
 
         grid = self
 

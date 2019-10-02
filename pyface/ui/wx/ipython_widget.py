@@ -17,7 +17,7 @@
 """
 
 # Standard library imports.
-import __builtin__
+import builtins
 import codeop
 import re
 import sys
@@ -116,10 +116,10 @@ class IPython09Controller(IPythonController):
         def my_rawinput(x=None):
             return '\n'
 
-        old_rawinput = __builtin__.raw_input
-        __builtin__.raw_input = my_rawinput
+        old_rawinput = builtins.input
+        builtins.input = my_rawinput
         IPythonController.__init__(self, *args, **kwargs)
-        __builtin__.raw_input = old_rawinput
+        builtins.input = old_rawinput
 
         # XXX: This is bugware for IPython bug:
         # https://bugs.launchpad.net/ipython/+bug/270998
@@ -185,7 +185,7 @@ class IPython09Controller(IPythonController):
                 is_complete = codeop.compile_command(clean_string, "<string>",
                                                      "exec")
                 self.release_output()
-            except Exception, e:
+            except Exception as e:
                 # XXX: Hack: return True so that the
                 # code gets executed and the error captured.
                 is_complete = True
