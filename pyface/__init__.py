@@ -20,7 +20,7 @@ try:
 except ImportError:
     __version__ = 'not-built'
 
-__requires__ = ['traits==4.7.0.dev51']
+__requires__ = ['traits==4.7.0+ansys.ch']
 __extras_require__ = {
     'wx': ['wxpython>=2.8.10', 'numpy'],
     'pyqt': ['pyqt>=4.10', 'pygments'],
