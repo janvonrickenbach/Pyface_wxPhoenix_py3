@@ -91,7 +91,7 @@ class _MenuItem(HasTraits):
             elif action.menu_role == "Quit":
                 self.control_id = wx.ID_EXIT
         else:
-            self.control_id = wx.NewId()
+            self.control_id = wx.NewId() % (1<<15)
         self.control = wx.MenuItem(menu, self.control_id, label, longtip, kind)
 
         # If the action has an image then display it.
@@ -359,7 +359,7 @@ class _Tool(HasTraits):
         else:
             self.tool_bar.SetSize((-1, 50))
 
-        self.control_id = wx.NewId()
+        self.control_id = wx.NewId() % (1<<15)
         #self.control = tool_bar.AddLabelTool(
         #    self.control_id, label, bmp, wx.NullBitmap, kind, tooltip, longtip, None
         #)

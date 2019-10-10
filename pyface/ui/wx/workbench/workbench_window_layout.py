@@ -440,7 +440,7 @@ class WorkbenchWindowLayout(MWorkbenchWindowLayout):
         editor_dock_control = DockControl(
             id=editor.id,
             name=editor.name,
-            closeable=True,
+            closeable = getattr(editor, 'closeable', True),# Fix rwalker that scene can be closed
             control=editor.control,
             style='tab',
             # fixme: Create a subclass of dock control and give it a proper
@@ -661,8 +661,7 @@ class WorkbenchWindowLayout(MWorkbenchWindowLayout):
         editor.on_trait_change(on_name_changed, 'name')
 
         def on_activated_changed(editor_dock_control, trait_name, old, new):
-            if editor_dock_control._editor is not None:
-                editor_dock_control._editor.set_focus()
+            editor.set_focus()
             return
 
         editor_dock_control.on_trait_change(on_activated_changed, 'activated')
@@ -717,8 +716,7 @@ class WorkbenchWindowLayout(MWorkbenchWindowLayout):
         view.on_trait_change(on_name_changed, 'name')
 
         def on_activated_changed(view_dock_control, trait_name, old, new):
-            if view_dock_control._view is not None:
-                view_dock_control._view.set_focus()
+            view.set_focus()
             return
 
         view_dock_control.on_trait_change(on_activated_changed, 'activated')

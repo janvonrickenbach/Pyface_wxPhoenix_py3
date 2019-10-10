@@ -205,10 +205,10 @@ class Window(MWindow, Widget):
         """ Called when a key is pressed when the tree has focus. """
 
         self.key_pressed = KeyPressedEvent(
-            alt_down=event.m_altDown == 1,
-            control_down=event.m_controlDown == 1,
-            shift_down=event.m_shiftDown == 1,
-            key_code=event.m_keyCode,
+            alt_down=event.AltDown() == 1,
+            control_down=event.ControlDown() == 1,
+            shift_down=event.ShiftDown() == 1,
+            key_code=event.GetKeyCode(),
             event=event)
 
         event.Skip()
