@@ -214,6 +214,13 @@ class TraitGridCellAdapter(PyGridCellEditor):
         if isinstance(control, wx.TextCtrl):
             control.SetSelection(-1, -1)
 
+    def GetValueFromCell(self):
+
+        if isinstance(self._control, wx._core.Choice):
+            return self._control.GetString(self._control.GetSelection())
+        else:
+            return self._control.GetValue()
+
     def ApplyEdit(self, row, col, grid):
         """
         Effectively save the changes in the grid.
@@ -221,7 +228,15 @@ class TraitGridCellAdapter(PyGridCellEditor):
         This function should save the value of the control in the grid. It is
         called only after EndEdit returns True
         """
-        grid.SetCellValue(row, col, self._control.GetValue())
+        val = self.GetValueFromCell()
+        if isinstance(val, str):
+            grid.SetCellValue(row, col, val)
+        else:
+            try:
+                grid.SetCellValue(row, col, str(val))
+            except:
+                pass
+
 
     def EndEdit(self, row, col, grid, old_val):
         """ Do anything necessary to complete the editing. """
@@ -251,7 +266,7 @@ class TraitGridCellAdapter(PyGridCellEditor):
         if refresh_needed:
             grid.ForceRefresh()
 
-        new_val = self._control.GetValue()
+        new_val = self.GetValueFromCell()
         if new_val != old_val:
             return new_val
         else:
