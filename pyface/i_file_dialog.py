@@ -105,7 +105,7 @@ class MFileDialog(object):
             The wildcard patterns for the extension.
         """
 
-        if isinstance(extension, basestring):
+        if isinstance(extension, str):
             pattern = extension
 
         else:

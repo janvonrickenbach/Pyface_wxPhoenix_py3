@@ -404,7 +404,7 @@ class IPythonWidget(Widget):
             name = 'dragged'
 
             if hasattr(obj, 'name') \
-                    and isinstance(obj.name, basestring) and len(obj.name) > 0:
+                    and isinstance(obj.name, str) and len(obj.name) > 0:
                 py_name = python_name(obj.name)
 
                 # Make sure that the name is actually a valid Python identifier.

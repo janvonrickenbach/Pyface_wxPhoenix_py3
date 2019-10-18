@@ -99,7 +99,7 @@ class BaseClipboard(HasStrictTraits):
         return None
 
     def _set_data(self, data):
-        if isinstance(data, basestring):
+        if isinstance(data, str):
             self.text_data = data
         elif isinstance(data, Sequence):
             self.file_data = data
