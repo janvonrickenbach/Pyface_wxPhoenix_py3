@@ -218,6 +218,8 @@ class TraitGridCellAdapter(PyGridCellEditor):
 
         if isinstance(self._control, wx._core.Choice):
             return self._control.GetString(self._control.GetSelection())
+        elif isinstance(self._control, wx._core.StaticText):
+            return self._control.Label
         else:
             return self._control.GetValue()
 
