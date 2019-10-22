@@ -1347,7 +1347,7 @@ class Grid(Widget):
         bottom_right = self._grid.GetSelectionBlockBottomRight()
         selection_mode = self._grid.GetSelectionMode()
 
-        if selection_mode == wxGrid.GridSelectRows:
+        if selection_mode == wxGrid.wxGridSelectRows:
             # handle rows differently. figure out which rows were
             # selected. turns out that in this case, wx adds a "block"
             # per row, so we have to cycle over the list returned by
