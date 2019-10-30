@@ -46,7 +46,7 @@ class IWizard(IDialog):
     # 'IWizard' interface.
     ###########################################################################
 
-    def next(self):
+    def __next__(self):
         """ Advance to the next page in the wizard. """
 
     def previous(self):
@@ -66,7 +66,7 @@ class MWizard(object):
     # 'IWizard' interface.
     ###########################################################################
 
-    def next(self):
+    def __next__(self):
         """ Advance to the next page in the wizard. """
 
         page = self.controller.get_next_page(self.controller.current_page)

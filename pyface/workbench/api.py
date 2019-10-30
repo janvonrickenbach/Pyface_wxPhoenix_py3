@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 
 from .i_editor import IEditor
 from .editor import Editor

@@ -143,7 +143,7 @@ def install(ctx, runtime='3.5', toolkit='null', environment=None):
             "edm run -e '{environment}' -- pip install pyqt5",
         ]
 
-    print("Creating environment '{environment}'".format(**parameters))
+    print(("Creating environment '{environment}'".format(**parameters)))
     for command in commands:
         ctx.run(command.format(**parameters))
 
@@ -171,7 +171,7 @@ def test(ctx, runtime='3.5', toolkit='null', environment=None):
     ]
 
     # run tests & coverage
-    print("Running tests in '{environment}'".format(**parameters))
+    print(("Running tests in '{environment}'".format(**parameters)))
 
     # We run in a tempdir to avoid accidentally picking up wrong pyface
     # code from a local dir.  We need to ensure a good .coveragerc is in
@@ -193,7 +193,7 @@ def cleanup(ctx, runtime='3.5', toolkit='null', environment=None):
         "edm environments remove '{environment}' --purge -y",
     ]
 
-    print("Cleaning up environment '{environment}'".format(**parameters))
+    print(("Cleaning up environment '{environment}'".format(**parameters)))
     for command in commands:
         ctx.run(command.format(**parameters))
 
@@ -213,7 +213,7 @@ def test_clean(ctx, runtime='3.5', toolkit='null'):
 @task
 def test_all(ctx):
     """ Run test_clean across all supported environments """
-    for runtime, toolkits in supported_combinations.items():
+    for runtime, toolkits in list(supported_combinations.items()):
         for toolkit in toolkits:
             try:
                 test_clean(ctx, runtime, toolkit)
@@ -262,7 +262,7 @@ def do_in_tempdir(files=(), capture_files=()):
 
     # send across any files we need
     for filepath in files:
-        print('copying file to tempdir: {}'.format(filepath))
+        print(('copying file to tempdir: {}'.format(filepath)))
         copyfile(filepath, path)
 
     os.chdir(path)
@@ -272,7 +272,7 @@ def do_in_tempdir(files=(), capture_files=()):
         # retrieve any result files we want
         for pattern in capture_files:
             for filepath in glob.iglob(pattern):
-                print('copying file back: {}'.format(filepath))
+                print(('copying file back: {}'.format(filepath)))
                 copyfile(filepath, old_path)
     finally:
         os.chdir(old_path)

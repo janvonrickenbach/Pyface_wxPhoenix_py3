@@ -7,9 +7,9 @@
 #  Copyright (c) 2011, Enthought, Inc.
 #  All rights reserved.
 #------------------------------------------------------------------------------
-from base_doc import BaseDoc
-from line_functions import get_indent, replace_at, add_indent
-from fields import (max_header_length, max_desc_length, max_name_length,
+from .base_doc import BaseDoc
+from .line_functions import get_indent, replace_at, add_indent
+from .fields import (max_header_length, max_desc_length, max_name_length,
                     MethodField, AttributeField)
 
 
@@ -34,7 +34,7 @@ class ClassDoc(BaseDoc):
         """Refactor the attributes section to sphinx friendly format"""
 
         if self.verbose:
-            print '{0} Section'.format(header)
+            print('{0} Section'.format(header))
 
         index = self.index
         self.remove_lines(index, 2)
@@ -53,7 +53,7 @@ class ClassDoc(BaseDoc):
 
         """
         if self.verbose:
-            print '{0} section'.format(header)
+            print('{0} section'.format(header))
 
         index = self.index
         self.remove_lines(index, 2)

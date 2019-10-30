@@ -149,7 +149,7 @@ def add_object_prefix(dict, object, prefix):
     """ Adds all traits from a specified object to a dictionary with a specified
         name prefix.
     """
-    for name, value in object.trait_get().iteritems():
+    for name, value in object.trait_get().items():
         dict[prefix + name] = value
 
 
@@ -358,9 +358,9 @@ class ImageInfo(HasPrivateTraits):
 
     def _get_image_info_code(self):
         data = dict((name, repr(value))
-                    for name, value in self.trait_get(
+                    for name, value in list(self.trait_get(
                         'name', 'image_name', 'description', 'category',
-                        'keywords', 'alignment').items())
+                        'keywords', 'alignment').items()))
         data.update(self.trait_get('width', 'height'))
         sides = ['left', 'right', 'top', 'bottom']
         data.update(('b' + name, getattr(self.border, name)) for name in sides)
@@ -697,8 +697,8 @@ class ImageVolume(HasPrivateTraits):
     def _get_image_volume_code(self):
         data = dict((name, repr(value))
                     for name, value in
-                    self.trait_get('description', 'category', 'keywords',
-                                   'aliases', 'time_stamp').items())
+                    list(self.trait_get('description', 'category', 'keywords',
+                                   'aliases', 'time_stamp').items()))
         data['info'] = ',\n'.join(info.image_volume_info_code
                                   for info in self.info)
         return (ImageVolumeTemplate % data)
@@ -1128,7 +1128,7 @@ class ImageLibrary(HasPrivateTraits):
             volume.keywords = list(keywords)
 
             # Create the final volume info list for the volume:
-            volume.info = info.values()
+            volume.info = list(info.values())
 
             # Write the volume manifest source code to the zip file:
             zf.writestr('image_volume.py', volume.image_volume_code)

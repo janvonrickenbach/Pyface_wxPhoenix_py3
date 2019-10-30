@@ -93,7 +93,7 @@ def print_qt_widget_tree(widget, level=0):
     level = level + 4
     if level == 0:
         print()
-    print(' '*level, widget)
+    print((' '*level, widget))
     for child in widget.children():
         print_qt_widget_tree(child, level=level)
     if level == 0:

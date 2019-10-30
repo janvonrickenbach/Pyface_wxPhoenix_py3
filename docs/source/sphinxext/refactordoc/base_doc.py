@@ -9,8 +9,8 @@
 #------------------------------------------------------------------------------
 import re
 
-from fields import Field
-from line_functions import is_empty, get_indent, fix_backspace
+from .fields import Field
+from .line_functions import is_empty, get_indent, fix_backspace
 
 #------------------------------------------------------------------------------
 #  Classes
@@ -244,8 +244,8 @@ class BaseDoc(object):
         header = self.peek()
         line2 = self.peek(1)
         if self.verbose:
-            print 'current line is: {0} at index {1}'.format(header,
-                                                             self.index)
+            print('current line is: {0} at index {1}'.format(header,
+                                                             self.index))
 
         # check for underline type format
         underline = re.match(r'\s*\S+\s*\Z', line2)

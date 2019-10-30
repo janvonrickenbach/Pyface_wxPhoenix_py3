@@ -47,7 +47,7 @@ class MainWindowLayout(HasTraits):
 
         # Perform the layout. This will assign fixed sizes to the dock widgets
         # to enforce size constraints specified in the PaneItems.
-        for name, direction in AREA_MAP.items():
+        for name, direction in list(AREA_MAP.items()):
             sublayout = getattr(layout, name)
             if sublayout:
                 self.set_layout_for_area(sublayout, direction)

@@ -1156,7 +1156,7 @@ class DockItem(HasPrivateTraits):
             if isinstance(object, IFeatureTool):
                 if (object.feature_can_drop_on(self.object) or
                         object.feature_can_drop_on_dock_control(self)):
-                    from feature_tool import FeatureTool
+                    from .feature_tool import FeatureTool
 
                     self.drop_features = [FeatureTool(dock_control=self)]
             else:
@@ -1840,14 +1840,14 @@ class DockControl(DockItem):
     def dump(self, indent):
         """ Prints the contents of the control.
         """
-        print('%sControl( %08X, name = %s, id = %s,\n%s'
+        print(('%sControl( %08X, name = %s, id = %s,\n%s'
               'style = %s, locked = %s,\n%s'
               'closeable = %s, resizable = %s, visible = %s\n%s'
               'width = %d, height = %d )' %
               (' ' * indent, id(self), self.name, self.id, ' ' * (indent + 9),
                self.style, self.locked, ' ' * (indent + 9), self.closeable,
                self.resizable, self.visible, ' ' * (indent + 9), self.width,
-               self.height))
+               self.height)))
 
     #---------------------------------------------------------------------------
     #  Draws the contents of the control:
@@ -2821,8 +2821,8 @@ class DockRegion(DockGroup):
     def dump(self, indent):
         """ Prints the contents of the region.
         """
-        print('%sRegion( %08X, active = %s, width = %d, height = %d )' %
-              (' ' * indent, id(self), self.active, self.width, self.height))
+        print(('%sRegion( %08X, active = %s, width = %d, height = %d )' %
+              (' ' * indent, id(self), self.active, self.width, self.height)))
         for item in self.contents:
             item.dump(indent + 3)
 
@@ -3584,8 +3584,8 @@ class DockSection(DockGroup):
     def dump(self, indent=0):
         """ Prints the contents of the section.
         """
-        print('%sSection( %08X, is_row = %s, width = %d, height = %d )' %
-              (' ' * indent, id(self), self.is_row, self.width, self.height))
+        print(('%sSection( %08X, is_row = %s, width = %d, height = %d )' %
+              (' ' * indent, id(self), self.is_row, self.width, self.height)))
         for item in self.contents:
             item.dump(indent + 3)
 
@@ -3991,7 +3991,7 @@ class DockSizer(wx.Sizer):
                 extras.append(control)
 
         # Try to resolve all unused saved items:
-        for id, item in map.items():
+        for id, item in list(map.items()):
             # If there is a handler, see if it can resolve it:
             if handler is not None:
                 control = handler.resolve_id(id)
