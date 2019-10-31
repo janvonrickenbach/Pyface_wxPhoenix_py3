@@ -9,7 +9,7 @@
 """ The preference dialog. """
 
 # Import the toolkit specific version.
-from __future__ import absolute_import
+
 
 from pyface.toolkit import toolkit_object
 TreeViewer = toolkit_object('preference.preference_dialog:PreferenceDialog')

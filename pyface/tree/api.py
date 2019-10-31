@@ -12,7 +12,7 @@
 # Description: <Enthought pyface package component>
 #------------------------------------------------------------------------------
 
-from __future__ import absolute_import
+
 
 from .node_event import NodeEvent
 from .node_monitor import NodeMonitor

@@ -66,7 +66,7 @@ class VirtualModel(PyGridTableBase):
         return self._data[row][1].get(self.GetColLabelValue(col), "")
 
     def SetValue(self, row, col, value):
-        print('Setting value %d %d %s' % (row, col, value))
+        print(('Setting value %d %d %s' % (row, col, value)))
 
         self._data[row][1][self.GetColLabelValue(col)] = value
 

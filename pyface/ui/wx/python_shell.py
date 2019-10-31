@@ -119,7 +119,7 @@ class PythonShell(MPythonShell, Widget):
                 self.control.clearCommand()
                 self.control.write('# Executing "%s"\n' % path)
 
-            execfile(path, prog_ns, prog_ns)
+            exec(compile(open(path, "rb").read(), path, 'exec'), prog_ns, prog_ns)
 
             if not hidden:
                 self.control.prompt()

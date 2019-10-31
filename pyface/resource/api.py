@@ -11,7 +11,7 @@
 # Author: Enthought, Inc.
 # Description: <Enthought resource package component>
 #------------------------------------------------------------------------------
-from __future__ import absolute_import
+
 
 from .resource_factory import ResourceFactory
 from .resource_manager import ResourceManager

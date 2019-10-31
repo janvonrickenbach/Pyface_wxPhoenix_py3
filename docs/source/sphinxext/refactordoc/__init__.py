@@ -5,9 +5,9 @@
 #  Copyright (c) 2011, Enthought, Inc.
 #  All rights reserved.
 #------------------------------------------------------------------------------
-from function_doc import FunctionDoc
-from class_doc import ClassDoc
-from enaml_decl_doc import EnamlDeclDoc
+from .function_doc import FunctionDoc
+from .class_doc import ClassDoc
+from .enaml_decl_doc import EnamlDeclDoc
 
 
 #------------------------------------------------------------------------------

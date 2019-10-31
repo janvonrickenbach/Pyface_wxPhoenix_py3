@@ -11,7 +11,7 @@
 # Author: Enthought, Inc.
 # Description: <Enthought pyface package component>
 #------------------------------------------------------------------------------
-from __future__ import absolute_import
+
 
 from .column_provider import ColumnProvider
 from .content_provider import ContentProvider

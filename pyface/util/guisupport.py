@@ -68,7 +68,7 @@ so you don't have to depend on IPython.
 #-----------------------------------------------------------------------------
 
 # Prevent name conflict with local wx package.
-from __future__ import absolute_import
+
 
 #-----------------------------------------------------------------------------
 # wx
@@ -80,7 +80,7 @@ def get_app_wx(*args, **kwargs):
     import wx
     app = wx.GetApp()
     if app is None:
-        if not kwargs.has_key('redirect'):
+        if 'redirect' not in kwargs:
             kwargs['redirect'] = False
         app = wx.App(*args, **kwargs)
     return app

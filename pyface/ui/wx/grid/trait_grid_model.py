@@ -107,7 +107,7 @@ class TraitGridModel(GridModel):
 
                 # we only add traits that aren't events, since events
                 # are write-only
-                for name, trait in self.data[0].traits().items():
+                for name, trait in list(self.data[0].traits().items()):
                     if trait.type != 'event':
                         self._auto_columns.append(TraitGridColumn(name=name))
             else:

@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 
 from traits.testing.unittest_tools import unittest
 
@@ -55,14 +55,14 @@ class TestConfirmationDialog(unittest.TestCase):
 
     def test_create_yes_renamed(self):
         # test that creation and destruction works as expected with ok_label
-        self.dialog.yes_label = u"Sure"
+        self.dialog.yes_label = "Sure"
         self.dialog._create()
         self.gui.process_events()
         self.dialog.destroy()
 
     def test_create_no_renamed(self):
         # test that creation and destruction works as expected with ok_label
-        self.dialog.no_label = u"No Way"
+        self.dialog.no_label = "No Way"
         self.dialog._create()
         self.gui.process_events()
         self.dialog.destroy()
@@ -132,10 +132,10 @@ class TestConfirmationDialog(unittest.TestCase):
 
     @unittest.skipIf(no_modal_dialog_tester, 'ModalDialogTester unavailable')
     def test_renamed_yes(self):
-        self.dialog.yes_label = u"Sure"
+        self.dialog.yes_label = "Sure"
         # test that Yes works as expected if renamed
         tester = ModalDialogTester(self.dialog.open)
-        tester.open_and_wait(when_opened=lambda x: x.click_widget(u"Sure"))
+        tester.open_and_wait(when_opened=lambda x: x.click_widget("Sure"))
         self.assertEqual(tester.result, YES)
         self.assertEqual(self.dialog.return_code, YES)
 
@@ -149,10 +149,10 @@ class TestConfirmationDialog(unittest.TestCase):
 
     @unittest.skipIf(no_modal_dialog_tester, 'ModalDialogTester unavailable')
     def test_renamed_no(self):
-        self.dialog.no_label = u"No way"
+        self.dialog.no_label = "No way"
         # test that No works as expected if renamed
         tester = ModalDialogTester(self.dialog.open)
-        tester.open_and_wait(when_opened=lambda x: x.click_widget(u"No way"))
+        tester.open_and_wait(when_opened=lambda x: x.click_widget("No way"))
         self.assertEqual(tester.result, NO)
         self.assertEqual(self.dialog.return_code, NO)
 
@@ -168,10 +168,10 @@ class TestConfirmationDialog(unittest.TestCase):
     @unittest.skipIf(no_modal_dialog_tester, 'ModalDialogTester unavailable')
     def test_cancel_renamed(self):
         self.dialog.cancel = True
-        self.dialog.cancel_label = u"Back"
+        self.dialog.cancel_label = "Back"
         # test that Cancel works as expected
         tester = ModalDialogTester(self.dialog.open)
-        tester.open_and_wait(when_opened=lambda x: x.click_widget(u"Back"))
+        tester.open_and_wait(when_opened=lambda x: x.click_widget("Back"))
         self.assertEqual(tester.result, CANCEL)
         self.assertEqual(self.dialog.return_code, CANCEL)
 

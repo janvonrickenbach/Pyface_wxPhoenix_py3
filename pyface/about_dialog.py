@@ -13,7 +13,7 @@
 #------------------------------------------------------------------------------
 """ The implementation of a simple 'About' dialog. """
 
-from __future__ import absolute_import
+
 
 # Import the toolkit specific version.
 from .toolkit import toolkit_object

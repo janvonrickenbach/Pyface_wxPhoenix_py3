@@ -264,7 +264,7 @@ class IPython09Controller(IPythonController):
         # I am patching this here instead of in the IPython module, but at some
         # point, this needs to be merged in.
         if self.debug:
-            print >> sys.__stdout__, "_popup_completion", self.input_buffer
+            print("_popup_completion", self.input_buffer, file=sys.__stdout__)
 
         line = self.input_buffer
         if (self.AutoCompActive() and line and not line[-1] == '.') \
@@ -274,7 +274,7 @@ class IPython09Controller(IPythonController):
                 offset = len(self._get_completion_text(line))
                 self.pop_completion(completions, offset=offset)
                 if self.debug:
-                    print >> sys.__stdout__, completions
+                    print(completions, file=sys.__stdout__)
 
     def _get_completion_text(self, line):
         """ Returns the text to be completed by breaking the line at specified

@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 
 from traits.testing.unittest_tools import unittest
 
