@@ -38,6 +38,8 @@ from pyface.i_python_shell import IPythonShell, MPythonShell
 from pyface.key_pressed_event import KeyPressedEvent
 from .widget import Widget
 
+NAVKEYS = (wx.WXK_END, wx.WXK_LEFT, wx.WXK_RIGHT,
+           wx.WXK_UP, wx.WXK_DOWN, wx.WXK_PAGEUP, wx.WXK_PAGEDOWN)
 
 @provides(IPythonShell)
 class PythonShell(MPythonShell, Widget):
@@ -119,7 +121,7 @@ class PythonShell(MPythonShell, Widget):
                 self.control.clearCommand()
                 self.control.write('# Executing "%s"\n' % path)
 
-            execfile(path, prog_ns, prog_ns)
+            exec(compile(open(path, "rb").read(), path, 'exec'), prog_ns, prog_ns)
 
             if not hidden:
                 self.control.prompt()
@@ -239,6 +241,13 @@ class PyShell(PyShellBase):
         super(PyShell, self).__init__(parent, id, pos, size, style, introText,
                                       locals, InterpClass, *args, **kwds)
 
+        # listen to double-click event in the auto-completion window
+        self.Bind(wx.EVT_LEFT_DCLICK, self.code_completion)
+
+        # list that holds all entries of the auto-completion windows in order to easily get the value
+        # workaround because AutoCompGetCurrentText() is not exposed to Python
+        self.autocomp_list = []
+
     def hidden_push(self, command):
         """ Send a command to the interpreter for execution without adding
             output to the display.
@@ -273,6 +282,97 @@ class PyShell(PyShellBase):
         builtins.input = self.raw_input
         self.destroy()
         super(PyShellBase, self).Destroy()
+
+    def code_completion(self, event):
+        if self.AutoCompActive():
+            # Rene Roos Nov 2019: this is a workaround that the auto-completion works properly if parts of the code
+            # already have been entered to the shell. This should become obsolete if there would be a ipython shell
+            # integration
+            # approach: remove the entered text before the selection is added to the shell
+
+            # get the current selection in the drop-down menu
+            autocomp_index = self.AutoCompGetCurrent()
+            # close the auto complete window
+            self.AutoCompCancel()
+            # get the current position of the cursor
+            currpos = self.GetCurrentPos()
+            # get the begin of the line (command)
+            stoppos = self.promptPosEnd
+            # get the command as string
+            command = self.GetTextRange(stoppos, currpos)
+            # get the index of the first char after the separator.
+            sep_pos = command.rfind('.') + 1
+            # delete the text after the separator (by position and length)
+            self.DeleteRange(currpos-len(command)+sep_pos, len(command)-sep_pos)
+            # get the value that has to be added
+            value = self.autocomp_list[autocomp_index]
+            # Append the text
+            self.AppendText(value)
+            # Move cursor and anchor
+            self.SetCurrentPos(self.TextLength)
+            self.SetAnchor(self.TextLength)
+
+
+    #Overwrite OnKeyDown method in wx\py\shell.py
+    def OnKeyDown(self, event):
+
+        key = event.GetKeyCode()
+
+        if self.AutoCompActive():
+            # this is a workaround that the auto-completion works properly if parts of the code already have been
+            # entered to the shell. This should become obsolete for a ipython shell integration
+            # approach: remove the entered text before the selection is added to the shell
+            if key in [wx.WXK_TAB, wx.WXK_RETURN]:
+
+                self.code_completion(event)
+                #Stop the event here!!!
+                return
+
+        #Call parent function
+        super().OnKeyDown(event)
+
+    """
+    #if the drop-down list should be dynamically updated (filtered), then add a binding 
+    #self.Bind(wx.EVT_KEY_UP, self.OnKeyUp) and reactivate this function.
+    def OnKeyUp(self, event):
+
+        key = event.GetKeyCode()
+        if key in NAVKEYS:
+            #Do nothing here
+            event.Skip()
+            return
+        elif key not in self.autoCompleteKeys and self.AutoCompActive():
+          self.AutoCompCancel()
+          
+          currpos = self.GetCurrentPos()
+          stoppos = self.promptPosEnd
+          command = self.GetTextRange(stoppos, currpos)
+          
+          self.autoCompleteShow(command, offset=0, filter=command.split('.')[-1])
+     """
+
+    def autoCompleteShow(self, command, offset=0, filter = None):
+        """Display auto-completion popup list."""
+        self.AutoCompSetAutoHide(self.autoCompleteAutoHide)
+        self.AutoCompSetIgnoreCase(self.autoCompleteCaseInsensitive)
+        values = self.interp.getAutoCompleteList(command,
+                                                 includeMagic=self.autoCompleteIncludeMagic,
+                                                 includeSingle=False, #don't add properties and methods that start with `_`
+                                                 includeDouble=False) #don't add properties and methods that start with `__`
+        if values:
+
+            self.autocomp_list = []
+            if filter:
+                for v in values:
+                    if v.startswith(filter):
+                        self.autocomp_list.append(v)
+            else:
+                self.autocomp_list = values
+
+            options = ' '.join(self.autocomp_list)
+            # offset = 0
+            self.AutoCompShow(offset, options)
+
 
 
 class _NullIO:
