@@ -12,7 +12,7 @@
 # Description: <Enthought pyface package component>
 #------------------------------------------------------------------------------
 
-from __future__ import absolute_import
+
 
 from .about_dialog import AboutDialog
 from .application_window import ApplicationWindow

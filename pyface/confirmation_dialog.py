@@ -13,7 +13,7 @@
 #------------------------------------------------------------------------------
 """ The implementation of a dialog that prompts the user for confirmation. """
 
-from __future__ import absolute_import
+
 
 # Local imports.
 from .constant import NO

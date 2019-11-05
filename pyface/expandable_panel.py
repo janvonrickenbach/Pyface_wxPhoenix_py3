@@ -10,7 +10,7 @@
 # Note: The ExpandablePanel is currently wx-specific
 
 # Import the toolkit specific version.
-from __future__ import absolute_import
+
 
 from .toolkit import toolkit_object
 ExpandablePanel = toolkit_object('expandable_panel:ExpandablePanel')

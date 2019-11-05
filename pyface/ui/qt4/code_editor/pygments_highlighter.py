@@ -118,7 +118,7 @@ class BlockUserData(QtGui.QTextBlockUserData):
 
     def __init__(self, **kwds):
         QtGui.QTextBlockUserData.__init__(self)
-        for key, value in kwds.items():
+        for key, value in list(kwds.items()):
             setattr(self, key, value)
 
     def __repr__(self):

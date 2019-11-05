@@ -105,7 +105,7 @@ def getAttributeNames(object, includeMagic=1, includeSingle=1,
     attrdict = getAllAttributeNames(object)
     # Store the object's dir.
     object_dir = dir(object)  #list
-    for (obj_type_name, technique, count), attrlist in attrdict.items():
+    for (obj_type_name, technique, count), attrlist in list(attrdict.items()):
         # This complexity is necessary to avoid accessing all the
         # attributes of the object.  This is very handy for objects
         # whose attributes are lazily evaluated.
@@ -127,10 +127,10 @@ def getAttributeNames(object, includeMagic=1, includeSingle=1,
     attributes.sort(
     )  #(key=cmp_to_key(comparative))#lambda x, y: cmp(x.upper(), y.upper()))
     if not includeSingle:
-        attributes = filter(lambda item: item[0]!='_' \
-                            or item[1]=='_', attributes)
+        attributes = [item for item in attributes if item[0]!='_' \
+                            or item[1]=='_']
     if not includeDouble:
-        attributes = filter(lambda item: item[:2] != '__', attributes)
+        attributes = [item for item in attributes if item[:2] != '__']
     return attributes
 
 

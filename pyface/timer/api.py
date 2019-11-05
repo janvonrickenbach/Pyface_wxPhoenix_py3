@@ -12,7 +12,7 @@
 # Description: <Enthought pyface package component>
 #------------------------------------------------------------------------------
 
-from __future__ import absolute_import
+
 
 from .timer import Timer
 from .do_later import do_later, do_after, DoLaterTimer

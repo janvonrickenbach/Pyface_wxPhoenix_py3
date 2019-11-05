@@ -362,7 +362,7 @@ class ActionManager(HasTraits):
 
     def dump(self, indent=''):
         """ Render a manager! """
-        print(indent, 'Manager', self.id)
+        print((indent, 'Manager', self.id))
         indent += '  '
 
         for group in self._groups:
@@ -370,7 +370,7 @@ class ActionManager(HasTraits):
 
     def render_group(self, group, indent=''):
         """ Render a group! """
-        print(indent, 'Group', group.id)
+        print((indent, 'Group', group.id))
         indent += '    '
 
         for item in group.items:
@@ -388,4 +388,4 @@ class ActionManager(HasTraits):
             item.dump(indent)
 
         else:
-            print(indent, 'Item', item.id)
+            print((indent, 'Item', item.id))

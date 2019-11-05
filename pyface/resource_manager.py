@@ -13,7 +13,7 @@
 #------------------------------------------------------------------------------
 """ The implementation of a shared resource manager. """
 
-from __future__ import absolute_import
+
 
 # Enthought library imports.
 from pyface.resource.api import ResourceManager
