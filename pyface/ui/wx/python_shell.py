@@ -24,6 +24,7 @@ import types
 
 # Major package imports.
 from wx.py.shell import Shell as PyShellBase
+from wx.py import frame
 import wx
 
 # Enthought library imports.
@@ -247,6 +248,30 @@ class PyShell(PyShellBase):
         # list that holds all entries of the auto-completion windows in order to easily get the value
         # workaround because AutoCompGetCurrentText() is not exposed to Python
         self.autocomp_list = []
+
+    def GetContextMenu(self):
+        """
+            Overwrite the default context menu:
+
+            Create and return a context menu for the shell.
+            This is used instead of the scintilla default menu
+            in order to correctly respect our immutable buffer.
+        """
+        menu = wx.Menu()
+
+        menu.Append(self.ID_COPY, "Copy")
+        menu.Append(frame.ID_COPY_PLUS, "Copy With Prompts")
+
+        menu.AppendSeparator()
+
+        menu.Append(self.ID_PASTE, "Paste")
+        menu.Append(frame.ID_PASTE_PLUS, "Paste And Run")
+
+        menu.AppendSeparator()
+
+        menu.Append(self.ID_SELECTALL, "Select All")
+
+        return menu
 
     def hidden_push(self, command):
         """ Send a command to the interpreter for execution without adding
