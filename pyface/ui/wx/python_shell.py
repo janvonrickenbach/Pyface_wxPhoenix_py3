@@ -323,19 +323,20 @@ class PyShell(PyShellBase):
             currpos = self.GetCurrentPos()
             # get the begin of the line (command)
             stoppos = self.promptPosEnd
-            # get the command as string
+            # get the command as string between the begin of the line and cursor position
             command = self.GetTextRange(stoppos, currpos)
             # get the index of the first char after the separator.
             sep_pos = command.rfind('.') + 1
             # delete the text after the separator (by position and length)
-            self.DeleteRange(currpos-len(command)+sep_pos, len(command)-sep_pos)
+            edit_position = currpos-len(command)+sep_pos
+            self.DeleteRange(edit_position, len(command)-sep_pos)
             # get the value that has to be added
             value = self.autocomp_list[autocomp_index]
-            # Append the text
-            self.AppendText(value)
-            # Move cursor and anchor
-            self.SetCurrentPos(self.TextLength)
-            self.SetAnchor(self.TextLength)
+            # Insert the text just after the separator (.)
+            self.InsertText(edit_position, value)
+            # Move cursor and anchor to the end of the added value
+            self.SetCurrentPos(edit_position + len(value))
+            self.SetAnchor(edit_position + len(value))
 
 
     #Overwrite OnKeyDown method in wx\py\shell.py
