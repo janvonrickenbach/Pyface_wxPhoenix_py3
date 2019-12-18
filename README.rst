@@ -11,6 +11,7 @@ pyface: traits-capable windowing framework
 .. image:: https://codecov.io/github/enthought/pyface/coverage.svg?branch=master
     :target: https://codecov.io/github/enthought/pyface?branch=master
 
+This is a fork of the pyface Package that adds support wxPythonPhoenix and Python3   
 
 The pyface project contains a toolkit-independent GUI abstraction layer,
 which is used to support the "visualization" features of the Traits package.
